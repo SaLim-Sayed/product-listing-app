@@ -4,6 +4,7 @@ import { Alert, Button, Card, Spinner, buttonVariants } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { AddToCartModal } from "@/components/marketly/add-to-cart-modal";
 import { isApiError } from "@/lib/api/errors";
 import { safeImageSrc } from "@/lib/image-url";
 import { useProduct } from "@/lib/query/hooks/use-product";
@@ -13,6 +14,7 @@ const HERO = 400;
 export function ProductDetail({ id }: { id: string }) {
   const { data, isPending, isError, error, refetch } = useProduct(id);
   const [imageFailed, setImageFailed] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   if (isPending) {
     return (
@@ -56,6 +58,10 @@ export function ProductDetail({ id }: { id: string }) {
 
   return (
     <article className="space-y-8">
+      <AddToCartModal
+        product={showAddModal ? p : null}
+        onClose={() => setShowAddModal(false)}
+      />
       <Link
         href="/"
         className="text-marketly-price inline-flex text-sm font-semibold underline-offset-4 hover:underline"
@@ -103,6 +109,14 @@ export function ProductDetail({ id }: { id: string }) {
             <span className="mx-1.5 text-zinc-400">·</span>
             {p.rating.count} reviews
           </p>
+          <Button
+            variant="primary"
+            size="lg"
+            className="mt-2 w-full max-w-xs font-semibold sm:w-auto"
+            onPress={() => setShowAddModal(true)}
+          >
+            Add to cart
+          </Button>
           <div className="border-t border-zinc-200 pt-6 dark:border-zinc-800">
             <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               Description

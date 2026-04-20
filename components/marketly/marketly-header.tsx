@@ -1,8 +1,10 @@
 "use client";
 
-import { Button, InputGroup } from "@heroui/react";
+import { Button, InputGroup, useOverlayState } from "@heroui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CartDrawer } from "@/components/marketly/cart-drawer";
+import { selectCartTotalQuantity, useCartStore } from "@/lib/cart/cart-store";
 
 type Props = {
   searchQuery: string;
@@ -11,6 +13,8 @@ type Props = {
 
 export function MarketlyHeader({ searchQuery, onSearchChange }: Props) {
   const pathname = usePathname();
+  const cartCount = useCartStore(selectCartTotalQuantity);
+  const cartDrawer = useOverlayState();
 
   const nav = (href: string, label: string) => {
     const active = pathname === href;
@@ -29,6 +33,8 @@ export function MarketlyHeader({ searchQuery, onSearchChange }: Props) {
   };
 
   return (
+    <>
+      <CartDrawer state={cartDrawer} />
     <header className="sticky top-0 z-50 border-b border-zinc-200/80 bg-white shadow-sm">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3 md:flex-nowrap md:gap-6 md:py-3.5">
         <MarketlyLogoInline />
@@ -63,18 +69,29 @@ export function MarketlyHeader({ searchQuery, onSearchChange }: Props) {
             <Button
               variant="secondary"
               isIconOnly
-              aria-label="Shopping cart, 1 item"
+              aria-label={
+                cartCount === 0
+                  ? "Shopping cart, empty"
+                  : `Shopping cart, ${cartCount} items`
+              }
               className="rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-700 shadow-none"
+              onPress={() => cartDrawer.open()}
             >
               <CartGlyph />
             </Button>
-            <span className="pointer-events-none absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-violet-600 px-1 text-[11px] font-bold text-white ring-2 ring-white">
-              1
-            </span>
+            {cartCount > 0 ? (
+              <span
+                className="pointer-events-none absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-violet-600 px-1 text-[11px] font-bold text-white ring-2 ring-white"
+                suppressHydrationWarning
+              >
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            ) : null}
           </span>
         </div>
       </div>
     </header>
+    </>
   );
 }
 

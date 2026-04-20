@@ -3,6 +3,8 @@
 import { Button, Card } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { AddToCartModal } from "@/components/marketly/add-to-cart-modal";
 import { safeImageSrc } from "@/lib/image-url";
 import type { Product } from "@/lib/types/product";
 
@@ -13,11 +15,16 @@ function snippet(text: string, max = 72) {
 }
 
 export function MarketlyProductCard({ product }: { product: Product }) {
+  const [confirmProduct, setConfirmProduct] = useState<Product | null>(null);
   const src = safeImageSrc(product.image);
   const cat = product.category.replace(/'/g, "’");
 
   return (
     <Card className="group overflow-hidden rounded-xl border border-zinc-200/90 bg-white shadow-sm transition-shadow hover:shadow-md">
+      <AddToCartModal
+        product={confirmProduct}
+        onClose={() => setConfirmProduct(null)}
+      />
       <div className="relative">
         <Link href={`/products/${product.id}`} className="block">
           <div className="flex aspect-[4/3] items-center justify-center bg-zinc-50 p-6">
@@ -52,7 +59,7 @@ export function MarketlyProductCard({ product }: { product: Product }) {
           isIconOnly
           aria-label={`Add ${product.title} to cart`}
           className="absolute right-3 top-3 z-10 size-10 min-w-10 rounded-full border-0 bg-zinc-900 text-white shadow-md hover:bg-zinc-800"
-          onPress={() => {}}
+          onPress={() => setConfirmProduct(product)}
         >
           <MiniCart />
         </Button>
