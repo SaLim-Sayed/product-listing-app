@@ -1,3 +1,55 @@
 @import "tailwindcss";
+@import "@heroui/styles";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+@import "swiper/css/free-mode";
 
- 
+@theme inline {
+  --color-mm-primary: #008ecc;
+  --color-mm-primary-dark: #0078b0;
+  --color-mm-surface: #f3f9fb;
+  --color-mm-hero: #0a4d7a;
+}
+
+/* Align HeroUI accent with MegaMart primary (optional semantic bridge) */
+:root,
+[data-theme="light"] {
+  --accent: oklch(0.58 0.14 245);
+  --accent-foreground: oklch(0.99 0 0);
+}
+
+/* Hero: controls on dark gradient slides */
+.hero-swiper {
+  --swiper-navigation-size: 28px;
+  --swiper-navigation-sides-offset: 8px;
+}
+
+.hero-swiper .swiper-button-prev,
+.hero-swiper .swiper-button-next {
+  color: rgb(255 255 255 / 0.95);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+}
+
+.hero-swiper .swiper-button-prev::after,
+.hero-swiper .swiper-button-next::after {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  background: rgb(255 255 255 / 0.45);
+  opacity: 1;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background: #fff;
+  width: 1.5rem;
+  border-radius: 9999px;
+}
+
+@media (min-width: 768px) {
+  .hero-swiper {
+    --swiper-navigation-sides-offset: 16px;
+  }
+}

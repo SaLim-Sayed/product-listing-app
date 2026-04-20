@@ -4,4 +4,9 @@ export const routes = {
     collection: "/products",
     item: (id: string) => `/products/${encodeURIComponent(id)}`,
   },
+  catalog: {
+    categories: "/products/categories",
+    productsByCategory: (slug: string) =>
+      `/products/category/${encodeURIComponent(slug)}`,
+  },
 } as const;

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@heroui/react";
 import Link from "next/link";
 import { isApiError } from "@/lib/api/errors";
 import { ProductThumb } from "@/components/product-thumb";
@@ -34,13 +35,14 @@ export function ProductList() {
             </span>
           ) : null}
         </p>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          className="mt-3 rounded-md bg-red-700 px-3 py-1.5 text-sm text-white hover:bg-red-800"
+        <Button
+          variant="danger"
+          size="sm"
+          className="mt-3"
+          onPress={() => refetch()}
         >
           Retry
-        </button>
+        </Button>
       </div>
     );
   }
