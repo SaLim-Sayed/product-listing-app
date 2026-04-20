@@ -9,9 +9,15 @@ import { selectCartTotalQuantity, useCartStore } from "@/lib/cart/cart-store";
 type Props = {
   searchQuery: string;
   onSearchChange: (value: string) => void;
+  /** When false, hides catalog search (e.g. marketing landing). Default: true. */
+  showProductSearch?: boolean;
 };
 
-export function MarketlyHeader({ searchQuery, onSearchChange }: Props) {
+export function MarketlyHeader({
+  searchQuery,
+  onSearchChange,
+  showProductSearch = true,
+}: Props) {
   const pathname = usePathname();
   const cartCount = useCartStore(selectCartTotalQuantity);
   const cartDrawer = useOverlayState();
@@ -44,25 +50,29 @@ export function MarketlyHeader({ searchQuery, onSearchChange }: Props) {
           {nav("/products", "Products")}
         </nav>
 
-        <div className="order-3 min-w-0 w-full flex-1 md:order-none md:max-w-xl md:flex-1">
-          <InputGroup.Root fullWidth className="rounded-full border border-zinc-200 bg-zinc-50/80 shadow-inner">
-            <InputGroup.Prefix className="pl-3 text-zinc-400">
-              <SearchGlyph />
-            </InputGroup.Prefix>
-            <InputGroup.Input
-              aria-label="Search products"
-              placeholder="Type to search..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="bg-transparent py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400"
-            />
-            <InputGroup.Suffix className="pr-2 text-zinc-400">
-              <span aria-hidden className="inline-block px-1 text-xs">
-                ▾
-              </span>
-            </InputGroup.Suffix>
-          </InputGroup.Root>
-        </div>
+        {showProductSearch ? (
+          <div className="order-3 min-w-0 w-full flex-1 md:order-none md:max-w-xl md:flex-1">
+            <InputGroup.Root fullWidth className="rounded-full border border-zinc-200 bg-zinc-50/80 shadow-inner">
+              <InputGroup.Prefix className="pl-3 text-zinc-400">
+                <SearchGlyph />
+              </InputGroup.Prefix>
+              <InputGroup.Input
+                aria-label="Search products"
+                placeholder="Type to search..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="bg-transparent py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400"
+              />
+              <InputGroup.Suffix className="pr-2 text-zinc-400">
+                <span aria-hidden className="inline-block px-1 text-xs">
+                  ▾
+                </span>
+              </InputGroup.Suffix>
+            </InputGroup.Root>
+          </div>
+        ) : (
+          <div className="order-3 hidden min-w-0 flex-1 md:order-none md:block" />
+        )}
 
         <div className="ml-auto shrink-0">
           <span className="relative inline-flex">

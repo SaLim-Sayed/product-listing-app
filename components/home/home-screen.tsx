@@ -1,7 +1,7 @@
 "use client";
 
-import { MarketlyShopLayout } from "@/components/marketly/marketly-shop-layout";
+import { LandingPage } from "@/components/marketly/landing-page";
 
 export function HomeScreen() {
-  return <MarketlyShopLayout />;
+  return <LandingPage />;
 }

@@ -156,7 +156,7 @@ export function MarketlyShopLayout({ categorySlug }: Props) {
                 if (isCategoryRoute) {
                   const href =
                     chip.filterSlug == null
-                      ? "/"
+                      ? "/products"
                       : `/category/${encodeURIComponent(chip.filterSlug)}`;
                   return (
                     <Link
