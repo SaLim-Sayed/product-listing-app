@@ -58,7 +58,7 @@ export function ProductDetail({ id }: { id: string }) {
     <article className="space-y-8">
       <Link
         href="/"
-        className="inline-flex text-sm font-medium text-mm-primary underline-offset-4 hover:underline"
+        className="text-marketly-price inline-flex text-sm font-semibold underline-offset-4 hover:underline"
       >
         ← Back to home
       </Link>
@@ -93,7 +93,7 @@ export function ProductDetail({ id }: { id: string }) {
           <h1 className="text-2xl font-semibold leading-tight tracking-tight text-zinc-900 dark:text-zinc-50 md:text-3xl">
             {p.title}
           </h1>
-          <p className="text-3xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
+          <p className="text-marketly-price text-3xl font-bold tabular-nums">
             ${p.price.toFixed(2)}
           </p>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">

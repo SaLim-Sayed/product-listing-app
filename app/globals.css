@@ -6,16 +6,18 @@
 @import "swiper/css/free-mode";
 
 @theme inline {
-  --color-mm-primary: #008ecc;
-  --color-mm-primary-dark: #0078b0;
-  --color-mm-surface: #f3f9fb;
+  --color-mm-primary: #006fee;
+  --color-mm-primary-dark: #0058d0;
+  --color-mm-surface: #f4f4f5;
   --color-mm-hero: #0a4d7a;
+  --color-marketly-page: #f4f4f5;
+  --color-marketly-price: #006fee;
 }
 
-/* Align HeroUI accent with MegaMart primary (optional semantic bridge) */
+/* HeroUI accent — Marketly blue */
 :root,
 [data-theme="light"] {
-  --accent: oklch(0.58 0.14 245);
+  --accent: oklch(0.55 0.22 264);
   --accent-foreground: oklch(0.99 0 0);
 }
 

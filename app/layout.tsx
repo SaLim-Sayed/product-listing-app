@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MegaMart — online deals on electronics & more",
+  title: "Marketly — discover products you will love",
   description:
-    "Shop smartphones, electronics, and essentials. Demo storefront powered by Fake Store API.",
+    "Browse electronics and more. Demo storefront powered by Fake Store API.",
 };
 
 export default function RootLayout({
