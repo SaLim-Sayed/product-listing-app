@@ -2,16 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { safeImageSrc } from "@/lib/image-url";
 
 const THUMB = 56;
-
-/** Fake Store URLs should be HTTPS; normalize if an edge case returns `http:`. */
-function safeImageSrc(url: string): string {
-  if (url.startsWith("http://")) {
-    return `https://${url.slice("http://".length)}`;
-  }
-  return url;
-}
 
 export function ProductThumb({ src, alt }: { src: string; alt: string }) {
   const [failed, setFailed] = useState(false);

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { isApiError } from "@/lib/api/errors";
 import { ProductThumb } from "@/components/product-thumb";
 import { useProducts } from "@/lib/query/hooks/use-products";
@@ -56,19 +57,21 @@ export function ProductList() {
       </div>
       <ul className="divide-y divide-zinc-200 rounded-lg border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-950">
         {data.map((product) => (
-          <li
-            key={product.id}
-            className="flex items-start gap-3 px-4 py-3 text-sm"
-          >
-            <ProductThumb src={product.image} alt={product.title} />
-            <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-              <span className="line-clamp-2 font-medium text-zinc-900 dark:text-zinc-100">
-                {product.title}
-              </span>
-              <span className="shrink-0 tabular-nums text-zinc-600 dark:text-zinc-400">
-                ${product.price.toFixed(2)}
-              </span>
-            </div>
+          <li key={product.id}>
+            <Link
+              href={`/products/${product.id}`}
+              className="group flex items-start gap-3 px-4 py-3 text-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900/60"
+            >
+              <ProductThumb src={product.image} alt={product.title} />
+              <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                <span className="line-clamp-2 font-medium text-zinc-900 group-hover:underline dark:text-zinc-100">
+                  {product.title}
+                </span>
+                <span className="shrink-0 tabular-nums text-zinc-600 dark:text-zinc-400">
+                  ${product.price.toFixed(2)}
+                </span>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>
