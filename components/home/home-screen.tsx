@@ -1,5 +1,6 @@
 "use client";
 
+import { Card } from "@heroui/react";
 import { HeroCarousel } from "@/components/home/hero-carousel";
 import { BrandBanners } from "@/components/home/brand-banners";
 import { CategoryCircles } from "@/components/home/category-circles";
@@ -51,13 +52,13 @@ export function HomeScreen() {
               title="Shop From Top Categories"
               href="/"
             />
-            <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm md:p-6">
+            <Card className="rounded-2xl border border-zinc-200 p-4 shadow-sm md:p-6">
               <CategoryCircles
                 slugs={categories}
                 products={allProducts}
                 activeSlug="electronics"
               />
-            </div>
+            </Card>
           </section>
 
           <section aria-labelledby="brands-heading">

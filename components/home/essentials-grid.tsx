@@ -1,5 +1,6 @@
 "use client";
 
+import { Card } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { FreeMode } from "swiper/modules";
@@ -44,28 +45,30 @@ export function EssentialsGrid({ slugs, products }: Props) {
           <SwiperSlide key={slug}>
             <Link
               href={`/category/${encodeURIComponent(slug)}`}
-              className="group bg-card flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 shadow-sm transition hover:border-mm-primary/40 hover:shadow-md"
+              className="group block h-full"
             >
-              <div className="flex aspect-square items-center justify-center bg-mm-surface p-2">
-                {cover ? (
-                  <Image
-                    src={safeImageSrc(cover.image)}
-                    alt={label}
-                    width={120}
-                    height={120}
-                    className="max-h-full max-w-full object-contain transition group-hover:scale-105"
-                    unoptimized
-                  />
-                ) : (
-                  <div className="text-xs text-zinc-400">{label}</div>
-                )}
-              </div>
-              <div className="p-2 text-center">
-                <p className="text-xs font-semibold text-zinc-900">{label}</p>
-                <p className="text-[10px] font-bold text-mm-primary">
-                  UP TO 50% OFF
-                </p>
-              </div>
+              <Card className="flex h-full flex-col overflow-hidden rounded-xl border border-zinc-200 shadow-sm transition group-hover:border-mm-primary/40 group-hover:shadow-md">
+                <div className="flex aspect-square items-center justify-center bg-mm-surface p-2">
+                  {cover ? (
+                    <Image
+                      src={safeImageSrc(cover.image)}
+                      alt={label}
+                      width={120}
+                      height={120}
+                      className="max-h-full max-w-full object-contain transition group-hover:scale-105"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="text-xs text-zinc-400">{label}</div>
+                  )}
+                </div>
+                <div className="p-2 text-center">
+                  <p className="text-xs font-semibold text-zinc-900">{label}</p>
+                  <p className="text-[10px] font-bold text-mm-primary">
+                    UP TO 50% OFF
+                  </p>
+                </div>
+              </Card>
             </Link>
           </SwiperSlide>
         );

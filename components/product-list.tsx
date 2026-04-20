@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/react";
+import { Alert, Button, Spinner } from "@heroui/react";
 import Link from "next/link";
 import { isApiError } from "@/lib/api/errors";
 import { ProductThumb } from "@/components/product-thumb";
@@ -12,9 +12,10 @@ export function ProductList() {
 
   if (isPending) {
     return (
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">
-        Loading products…
-      </p>
+      <div className="text-muted-foreground flex items-center gap-2 text-sm">
+        <Spinner size="sm" />
+        <span>Loading products…</span>
+      </div>
     );
   }
 
@@ -25,25 +26,28 @@ export function ProductList() {
         : null;
 
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
-        <p className="font-medium">Could not load products</p>
-        <p className="mt-1 text-sm opacity-90">
-          {error.message}
-          {hint ? (
-            <span className="ml-2 rounded bg-red-100 px-1.5 py-0.5 font-mono text-xs dark:bg-red-900/60">
-              {hint}
-            </span>
-          ) : null}
-        </p>
-        <Button
-          variant="danger"
-          size="sm"
-          className="mt-3"
-          onPress={() => refetch()}
-        >
-          Retry
-        </Button>
-      </div>
+      <Alert status="danger">
+        <Alert.Indicator />
+        <Alert.Content>
+          <Alert.Title>Could not load products</Alert.Title>
+          <Alert.Description>
+            {error.message}
+            {hint ? (
+              <span className="mt-1 inline-block rounded bg-red-100 px-1.5 py-0.5 font-mono text-xs dark:bg-red-900/60">
+                {hint}
+              </span>
+            ) : null}
+          </Alert.Description>
+          <Button
+            variant="danger"
+            size="sm"
+            className="mt-3"
+            onPress={() => refetch()}
+          >
+            Retry
+          </Button>
+        </Alert.Content>
+      </Alert>
     );
   }
 

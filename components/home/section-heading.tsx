@@ -1,3 +1,6 @@
+"use client";
+
+import { Text } from "@heroui/react";
 import Link from "next/link";
 
 type Props = {
@@ -15,16 +18,18 @@ export function SectionHeading({
 }: Props) {
   return (
     <div className="mb-4 flex items-end justify-between gap-4">
-      <h2
+      <Text
         id={id}
-        className="text-lg font-semibold tracking-tight text-zinc-900 md:text-xl"
+        elementType="h2"
+        size="lg"
+        className="font-semibold tracking-tight text-zinc-900 md:text-xl"
       >
         {title}
-      </h2>
+      </Text>
       {href ? (
         <Link
           href={href}
-          className="shrink-0 text-sm font-semibold text-mm-primary hover:text-mm-primary-dark"
+          className="text-mm-primary hover:text-mm-primary-dark shrink-0 text-sm font-semibold"
         >
           {viewAllLabel} ›
         </Link>

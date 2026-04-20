@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/react";
+import { Alert, Button, Card, Spinner } from "@heroui/react";
 import Link from "next/link";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -21,27 +21,35 @@ export function CategoryCatalog({ slug }: Props) {
 
   if (isPending) {
     return (
-      <p className="text-sm text-zinc-500">Loading {title.toLowerCase()}…</p>
+      <div className="text-muted-foreground flex items-center gap-2 text-sm">
+        <Spinner size="sm" />
+        <span>Loading {title.toLowerCase()}…</span>
+      </div>
     );
   }
 
   if (isError) {
     const status = isApiError(error) ? error.status : undefined;
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-red-900">
-        <p className="font-medium">Could not load category</p>
-        <p className="mt-2 text-sm">{error.message}</p>
-        {status ? (
-          <p className="mt-1 font-mono text-xs">HTTP {status}</p>
-        ) : null}
-        <Button
-          variant="danger"
-          className="mt-4"
-          onPress={() => refetch()}
-        >
-          Retry
-        </Button>
-      </div>
+      <Alert status="danger">
+        <Alert.Indicator />
+        <Alert.Content>
+          <Alert.Title>Could not load category</Alert.Title>
+          <Alert.Description>
+            {error.message}
+            {status ? (
+              <span className="mt-1 block font-mono text-xs">HTTP {status}</span>
+            ) : null}
+          </Alert.Description>
+          <Button
+            variant="danger"
+            className="mt-4"
+            onPress={() => refetch()}
+          >
+            Retry
+          </Button>
+        </Alert.Content>
+      </Alert>
     );
   }
 
@@ -67,19 +75,18 @@ export function CategoryCatalog({ slug }: Props) {
     >
       {data.map((p) => (
         <SwiperSlide key={p.id}>
-          <Link
-            href={`/products/${p.id}`}
-            className="bg-card flex gap-3 rounded-xl border border-zinc-200 p-3 shadow-sm transition hover:border-mm-primary/40 hover:shadow-md"
-          >
-            <ProductThumb src={p.image} alt={p.title} />
-            <div className="min-w-0 flex-1">
-              <p className="line-clamp-2 text-sm font-medium text-zinc-900">
-                {p.title}
-              </p>
-              <p className="mt-1 text-sm font-semibold text-mm-primary">
-                ${p.price.toFixed(2)}
-              </p>
-            </div>
+          <Link href={`/products/${p.id}`} className="block">
+            <Card className="flex gap-3 rounded-xl border border-zinc-200 p-3 shadow-sm transition hover:border-mm-primary/40 hover:shadow-md">
+              <ProductThumb src={p.image} alt={p.title} />
+              <div className="min-w-0 flex-1">
+                <p className="line-clamp-2 text-sm font-medium text-zinc-900">
+                  {p.title}
+                </p>
+                <p className="text-mm-primary mt-1 text-sm font-semibold">
+                  ${p.price.toFixed(2)}
+                </p>
+              </div>
+            </Card>
           </Link>
         </SwiperSlide>
       ))}

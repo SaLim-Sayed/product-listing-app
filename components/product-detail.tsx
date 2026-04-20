@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@heroui/react";
+import { Alert, Button, Card, Spinner, buttonVariants } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -16,9 +16,10 @@ export function ProductDetail({ id }: { id: string }) {
 
   if (isPending) {
     return (
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">
-        Loading product…
-      </p>
+      <div className="text-muted-foreground flex items-center gap-2 text-sm">
+        <Spinner size="sm" />
+        <span>Loading product…</span>
+      </div>
     );
   }
 
@@ -27,23 +28,26 @@ export function ProductDetail({ id }: { id: string }) {
     const is404 = status === 404;
 
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100">
-        <p className="font-medium">
-          {is404 ? "Product not found" : "Could not load product"}
-        </p>
-        <p className="mt-2 text-sm opacity-90">{error.message}</p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Button variant="danger" onPress={() => refetch()}>
-            Retry
-          </Button>
-          <Link
-            href="/"
-            className="border-border text-foreground hover:bg-muted inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium"
-          >
-            Back to home
-          </Link>
-        </div>
-      </div>
+      <Alert status="danger">
+        <Alert.Indicator />
+        <Alert.Content>
+          <Alert.Title>
+            {is404 ? "Product not found" : "Could not load product"}
+          </Alert.Title>
+          <Alert.Description>{error.message}</Alert.Description>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button variant="danger" onPress={() => refetch()}>
+              Retry
+            </Button>
+            <Link
+              href="/"
+              className={buttonVariants({ variant: "secondary", size: "md" })}
+            >
+              Back to home
+            </Link>
+          </div>
+        </Alert.Content>
+      </Alert>
     );
   }
 
@@ -61,9 +65,11 @@ export function ProductDetail({ id }: { id: string }) {
 
       <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-start">
         <div className="flex justify-center md:justify-start">
-          <div className="bg-card relative flex aspect-square w-full max-w-sm items-center justify-center overflow-hidden rounded-xl border border-zinc-200 p-6 dark:border-zinc-800">
+          <Card className="relative flex aspect-square w-full max-w-sm items-center justify-center overflow-hidden rounded-xl border border-zinc-200 p-6 dark:border-zinc-800">
             {imageFailed ? (
-              <span className="text-sm text-zinc-500">Image unavailable</span>
+              <span className="text-muted-foreground text-sm">
+                Image unavailable
+              </span>
             ) : (
               <Image
                 src={src}
@@ -77,7 +83,7 @@ export function ProductDetail({ id }: { id: string }) {
                 onError={() => setImageFailed(true)}
               />
             )}
-          </div>
+          </Card>
         </div>
 
         <div className="space-y-4">

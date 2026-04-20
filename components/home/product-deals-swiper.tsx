@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@heroui/react";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ProductDealCard } from "@/components/home/product-deal-card";
@@ -22,7 +23,7 @@ export function ProductDealsSwiper({ products, loading }: Props) {
       >
         {Array.from({ length: 6 }).map((_, i) => (
           <SwiperSlide key={i} className="!w-[160px] md:!w-[180px]">
-            <div className="h-[260px] animate-pulse rounded-lg bg-zinc-200" />
+            <Skeleton className="h-[260px] w-full rounded-lg" />
           </SwiperSlide>
         ))}
       </Swiper>
