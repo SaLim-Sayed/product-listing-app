@@ -3,6 +3,7 @@
 import { Badge, Card } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { productDetailPath } from "@/lib/nav/product-path";
 import { safeImageSrc } from "@/lib/image-url";
 import type { Product } from "@/lib/types/product";
 
@@ -19,7 +20,7 @@ export function ProductDealCard({ product }: { product: Product }) {
 
   return (
     <Link
-      href={`/products/${product.id}`}
+      href={productDetailPath(product.id)}
       className="group relative w-[160px] shrink-0 md:w-[180px]"
     >
       <Card className="relative flex h-full flex-col overflow-hidden rounded-lg border border-zinc-200 shadow-sm transition group-hover:border-mm-primary/40 group-hover:shadow-md">

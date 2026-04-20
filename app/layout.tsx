@@ -13,10 +13,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+/** Default SEO; route-level `metadata` / `generateMetadata` override per page (App Router). Pages Router used `next/head`. */
 export const metadata: Metadata = {
-  title: "Marketly — discover products you will love",
+  title: {
+    default: "Marketly — Fake Store demo",
+    template: "%s | Marketly",
+  },
   description:
-    "Browse electronics and more. Demo storefront powered by Fake Store API.",
+    "Products from fakestoreapi.com — listing, filters, and product detail.",
 };
 
 export default function RootLayout({

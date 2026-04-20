@@ -2,6 +2,8 @@
 
 import { Alert, Button, Spinner } from "@heroui/react";
 import Link from "next/link";
+import { productDetailPath } from "@/lib/nav/product-path";
+import { formatCategoryLabel } from "@/lib/format-category";
 import { isApiError } from "@/lib/api/errors";
 import { ProductThumb } from "@/components/product-thumb";
 import { useProducts } from "@/lib/query/hooks/use-products";
@@ -65,13 +67,18 @@ export function ProductList() {
         {data.map((product) => (
           <li key={product.id}>
             <Link
-              href={`/products/${product.id}`}
+              href={productDetailPath(product.id)}
               className="group flex items-start gap-3 px-4 py-3 text-sm transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900/60"
             >
               <ProductThumb src={product.image} alt={product.title} />
               <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                <span className="line-clamp-2 font-medium text-zinc-900 group-hover:underline dark:text-zinc-100">
-                  {product.title}
+                <span className="min-w-0">
+                  <span className="line-clamp-2 font-medium text-zinc-900 group-hover:underline dark:text-zinc-100">
+                    {product.title}
+                  </span>
+                  <span className="mt-0.5 block text-xs capitalize text-zinc-500">
+                    {formatCategoryLabel(product.category)}
+                  </span>
                 </span>
                 <span className="shrink-0 tabular-nums text-zinc-600 dark:text-zinc-400">
                   ${product.price.toFixed(2)}

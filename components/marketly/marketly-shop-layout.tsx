@@ -1,8 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Alert, Button, Spinner, buttonVariants, cn, Skeleton } from "@heroui/react";
+import {
+  Alert,
+  Button,
+  Spinner,
+  buttonVariants,
+  cn,
+  Skeleton,
+} from "@heroui/react";
 import { formatCategoryLabel } from "@/lib/format-category";
 import { useCategories } from "@/lib/query/hooks/use-categories";
 import { useCategoryProducts } from "@/lib/query/hooks/use-category-products";
@@ -30,6 +37,10 @@ export function MarketlyShopLayout({ categorySlug }: Props) {
     null,
   );
 
+  /** Client-side price range ($), synced to current listing bounds. */
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(0);
+
   const categoriesQuery = useCategories();
   const allQuery = useProducts();
   const categoryQuery = useCategoryProducts(
@@ -52,7 +63,8 @@ export function MarketlyShopLayout({ categorySlug }: Props) {
     ];
   }, [categoriesQuery.data]);
 
-  const filtered = useMemo(() => {
+  /** Category + search only (before price filter). */
+  const searchAndCategoryList = useMemo(() => {
     if (!data) return [];
     let list = data;
 
@@ -72,6 +84,32 @@ export function MarketlyShopLayout({ categorySlug }: Props) {
 
     return list;
   }, [data, isCategoryRoute, homeSelectedSlug, searchQuery]);
+
+  const priceBounds = useMemo(() => {
+    if (searchAndCategoryList.length === 0) {
+      return { min: 0, max: 0 };
+    }
+    const prices = searchAndCategoryList.map((p) => p.price);
+    return {
+      min: Math.floor(Math.min(...prices) * 100) / 100,
+      max: Math.ceil(Math.max(...prices) * 100) / 100,
+    };
+  }, [searchAndCategoryList]);
+
+  useEffect(() => {
+    // Sync inputs when category/search yields a new price extent.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset bounds when the listing changes
+    setPriceMin(priceBounds.min);
+    setPriceMax(priceBounds.max);
+  }, [priceBounds.min, priceBounds.max]);
+
+  const filtered = useMemo(() => {
+    const lo = Math.min(priceMin, priceMax);
+    const hi = Math.max(priceMin, priceMax);
+    return searchAndCategoryList.filter(
+      (p) => p.price >= lo && p.price <= hi,
+    );
+  }, [searchAndCategoryList, priceMin, priceMax]);
 
   const chipActive = (chip: Chip) => {
     if (isCategoryRoute) {
@@ -157,6 +195,76 @@ export function MarketlyShopLayout({ categorySlug }: Props) {
               })}
             </div>
           )}
+        </div>
+      </div>
+
+      <div className="border-b border-zinc-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            Price range (USD)
+          </p>
+          <div className="flex flex-wrap items-end gap-4">
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="price-min"
+                className="text-xs font-medium text-zinc-600"
+              >
+                Minimum
+              </label>
+              <input
+                id="price-min"
+                type="number"
+                step="0.01"
+                min={0}
+                inputMode="decimal"
+                disabled={searchAndCategoryList.length === 0}
+                value={priceMin}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  setPriceMin(Number.isFinite(v) ? v : 0);
+                }}
+                className="w-28 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm disabled:opacity-50"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="price-max"
+                className="text-xs font-medium text-zinc-600"
+              >
+                Maximum
+              </label>
+              <input
+                id="price-max"
+                type="number"
+                step="0.01"
+                min={0}
+                inputMode="decimal"
+                disabled={searchAndCategoryList.length === 0}
+                value={priceMax}
+                onChange={(e) => {
+                  const v = parseFloat(e.target.value);
+                  setPriceMax(Number.isFinite(v) ? v : 0);
+                }}
+                className="w-28 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm disabled:opacity-50"
+              />
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-zinc-200"
+              isDisabled={searchAndCategoryList.length === 0}
+              onPress={() => {
+                setPriceMin(priceBounds.min);
+                setPriceMax(priceBounds.max);
+              }}
+            >
+              Reset range
+            </Button>
+          </div>
+          <p className="mt-2 text-xs text-zinc-400">
+            Listing range ${priceBounds.min.toFixed(2)} – $
+            {priceBounds.max.toFixed(2)} · Filters apply on this page only.
+          </p>
         </div>
       </div>
 

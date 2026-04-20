@@ -2,6 +2,7 @@
 
 import { Alert, Button, Card, Spinner } from "@heroui/react";
 import Link from "next/link";
+import { productDetailPath } from "@/lib/nav/product-path";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { isApiError } from "@/lib/api/errors";
@@ -75,7 +76,7 @@ export function CategoryCatalog({ slug }: Props) {
     >
       {data.map((p) => (
         <SwiperSlide key={p.id}>
-          <Link href={`/products/${p.id}`} className="block">
+          <Link href={productDetailPath(p.id)} className="block">
             <Card className="flex gap-3 rounded-xl border border-zinc-200 p-3 shadow-sm transition hover:border-mm-primary/40 hover:shadow-md">
               <ProductThumb src={p.image} alt={p.title} />
               <div className="min-w-0 flex-1">

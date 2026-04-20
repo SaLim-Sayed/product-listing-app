@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { AddToCartModal } from "@/components/marketly/add-to-cart-modal";
+import { formatCategoryLabel } from "@/lib/format-category";
+import { productDetailPath } from "@/lib/nav/product-path";
 import { safeImageSrc } from "@/lib/image-url";
 import type { Product } from "@/lib/types/product";
 
@@ -17,7 +19,7 @@ function snippet(text: string, max = 72) {
 export function MarketlyProductCard({ product }: { product: Product }) {
   const [confirmProduct, setConfirmProduct] = useState<Product | null>(null);
   const src = safeImageSrc(product.image);
-  const cat = product.category.replace(/'/g, "’");
+  const catLabel = formatCategoryLabel(product.category);
 
   return (
     <Card className="group overflow-hidden rounded-xl border border-zinc-200/90 bg-white shadow-sm transition-shadow hover:shadow-md">
@@ -26,7 +28,7 @@ export function MarketlyProductCard({ product }: { product: Product }) {
         onClose={() => setConfirmProduct(null)}
       />
       <div className="relative">
-        <Link href={`/products/${product.id}`} className="block">
+        <Link href={productDetailPath(product.id)} className="block">
           <div className="flex aspect-[4/3] items-center justify-center bg-zinc-50 p-6">
             <Image
               src={src}
@@ -49,9 +51,14 @@ export function MarketlyProductCard({ product }: { product: Product }) {
               <span className="text-marketly-price text-lg font-bold tabular-nums">
                 ${product.price.toFixed(2)}
               </span>
-              <span className="max-w-[45%] truncate text-right text-xs font-medium capitalize text-zinc-400">
-                {cat}
-              </span>
+              <div className="max-w-[48%] text-right">
+                <span className="block text-[10px] font-semibold uppercase tracking-wide text-zinc-400">
+                  Category
+                </span>
+                <span className="line-clamp-1 text-xs font-medium capitalize text-zinc-600">
+                  {catLabel}
+                </span>
+              </div>
             </div>
           </div>
         </Link>

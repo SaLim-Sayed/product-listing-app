@@ -7,16 +7,25 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+/** App Router SEO: use `generateMetadata` / `metadata` exports (Pages Router used `next/head`). */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
     const product = await fetchProductById(id);
+    const description = product.description.slice(0, 160);
     return {
-      title: `${product.title} | Marketly`,
-      description: product.description.slice(0, 160),
+      title: product.title,
+      description,
+      openGraph: {
+        title: product.title,
+        description,
+      },
     };
   } catch {
-    return { title: "Product | Marketly" };
+    return {
+      title: "Product",
+      description: "Product details.",
+    };
   }
 }
 

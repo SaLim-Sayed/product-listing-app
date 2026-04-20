@@ -7,7 +7,10 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const label = formatCategoryLabel(decodeURIComponent(slug));
-  return { title: `${label} | Marketly` };
+  return {
+    title: label,
+    description: `Shop ${label} products from Fake Store.`,
+  };
 }
 
 export default async function CategoryPage({ params }: Props) {
