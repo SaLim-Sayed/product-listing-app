@@ -20,7 +20,6 @@ type Chip = {
 };
 
 type Props = {
-  /** When set, this view lists products for that API category (URL-driven). */
   categorySlug?: string;
 };
 

@@ -1,7 +1,6 @@
 "use client";
 
-import { Rocket } from "@gravity-ui/icons";
-import { Button, Modal, useOverlayState } from "@heroui/react";
+ import { Button, Modal, useOverlayState } from "@heroui/react";
 import { useCartStore } from "@/lib/cart/cart-store";
 import { promoListAndSave } from "@/lib/cart/promo-pricing";
 import type { Product } from "@/lib/types/product";
@@ -36,9 +35,6 @@ export function AddToCartModal({ product, onClose }: Props) {
           <Modal.Dialog className="sm:max-w-[360px] overflow-hidden rounded-xl">
             <Modal.CloseTrigger />
             <Modal.Header>
-              <Modal.Icon className="bg-default text-foreground">
-                <Rocket className="size-5" />
-              </Modal.Icon>
               <Modal.Heading>Add to Cart</Modal.Heading>
             </Modal.Header>
             <Modal.Body>

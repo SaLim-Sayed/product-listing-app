@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { AddToCartModal } from "@/components/marketly/add-to-cart-modal";
+import { RelatedProducts } from "@/components/marketly/related-products";
 import { isApiError } from "@/lib/api/errors";
 import { safeImageSrc } from "@/lib/image-url";
 import { useProduct } from "@/lib/query/hooks/use-product";
@@ -127,6 +128,11 @@ export function ProductDetail({ id }: { id: string }) {
           </div>
         </div>
       </div>
+
+      <RelatedProducts
+        categorySlug={p.category}
+        excludeProductId={p.id}
+      />
     </article>
   );
 }
