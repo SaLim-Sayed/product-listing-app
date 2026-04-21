@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Modal, useOverlayState } from "@heroui/react";
+import { Button, Modal, toast, useOverlayState } from "@heroui/react";
 import { useCartStore } from "@/lib/cart/cart-store";
 import { promoListAndSave } from "@/lib/cart/promo-pricing";
 import type { Product } from "@/features/products/types";
@@ -60,6 +60,9 @@ export function AddToCartModal({ product, onClose }: Props) {
                 className="min-w-24 bg-violet-600 font-semibold text-white hover:bg-violet-700"
                 onPress={() => {
                   addItem(product);
+                  toast.success("Added to cart", {
+                    description: `${product.title} has been added to your cart.`,
+                  });
                   state.close();
                 }}
               >

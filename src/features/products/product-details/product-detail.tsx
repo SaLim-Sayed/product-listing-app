@@ -11,6 +11,8 @@ import { safeImageSrc } from "@/lib/image-url";
 import { useProduct } from "@/features/products/hooks";
 import { SHOP_PATH } from "@/lib/nav/shop-path";
 
+import { ProductDetailSkeleton } from "./ProductDetailSkeleton";
+
 const HERO = 400;
 
 export function ProductDetail({ id }: { id: string }) {
@@ -19,12 +21,7 @@ export function ProductDetail({ id }: { id: string }) {
   const [showAddModal, setShowAddModal] = useState(false);
 
   if (isPending) {
-    return (
-      <div className="text-muted-foreground flex items-center gap-2 text-sm">
-        <Spinner size="sm" />
-        <span>Loading product…</span>
-      </div>
-    );
+    return <ProductDetailSkeleton />;
   }
 
   if (isError) {

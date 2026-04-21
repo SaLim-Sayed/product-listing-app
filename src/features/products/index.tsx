@@ -185,13 +185,6 @@ export default function Products() {
               </Button>
             </div>
 
-            {isPending ? (
-              <div className="text-muted-foreground flex justify-center gap-2 py-20 text-sm">
-                <Spinner size="md" />
-                <span>Loading products…</span>
-              </div>
-            ) : null}
-
             {isError ? (
               <Alert status="danger" className="max-w-lg">
                 <Alert.Indicator />
@@ -208,17 +201,9 @@ export default function Products() {
                   </Button>
                 </Alert.Content>
               </Alert>
-            ) : null}
-
-            {!isPending && !isError && filters.filtered.length === 0 ? (
-              <p className="text-center text-sm text-zinc-500">
-                No products match your filters.
-              </p>
-            ) : null}
-
-            {!isPending && !isError && filters.filtered.length > 0 ? (
-              <ProductGrid products={filters.filtered} />
-            ) : null}
+            ) : (
+              <ProductGrid products={filters.filtered} isLoading={isPending} />
+            )}
           </Container>
         </main>
       </div>

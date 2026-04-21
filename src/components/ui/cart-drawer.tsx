@@ -3,6 +3,7 @@
 import {
   Button,
   Drawer,
+  toast,
   type UseOverlayStateReturn,
 } from "@heroui/react";
 import Image from "next/image";
@@ -69,7 +70,12 @@ export function CartDrawer({ state }: Props) {
                     key={line.productId}
                     line={line}
                     onQtyChange={(q) => setLineQuantity(line.productId, q)}
-                    onRemove={() => removeLine(line.productId)}
+                    onRemove={() => {
+                      removeLine(line.productId);
+                      toast.warning("Removed from cart", {
+                        description: `${line.title} has been removed.`,
+                      });
+                    }}
                   />
                 ))
               )}
