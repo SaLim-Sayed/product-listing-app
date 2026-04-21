@@ -1,1 +1,11 @@
-<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="24" fill="none" viewBox="0 0 120 24" aria-hidden="true">
+  <defs>
+    <linearGradient id="m" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+  <rect width="24" height="24" rx="6" fill="url(#m)"/>
+  <text x="12" y="17" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="14" font-weight="800">M</text>
+  <text x="32" y="16" fill="#18181b" font-family="system-ui,sans-serif" font-size="13" font-weight="700">Marketly</text>
+</svg>
