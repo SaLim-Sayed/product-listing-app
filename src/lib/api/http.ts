@@ -5,7 +5,7 @@ import { toApiError } from "@/lib/api/errors";
 export async function apiGet<T>(
   url: string,
   config?: AxiosRequestConfig,
-  retries = 2,
+  retries = 3,
 ): Promise<T> {
   try {
     const { data } = await apiClient.get<T>(url, config);
@@ -18,7 +18,7 @@ export async function apiGet<T>(
 
     if (isNetworkError && retries > 0) {
       console.warn(`API: Retrying ${url} (${retries} left) due to ${error.code || "network error"}`);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       return apiGet<T>(url, config, retries - 1);
     }
 

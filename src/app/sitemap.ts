@@ -7,8 +7,20 @@ import { getSiteBaseUrl } from "@/config/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = await getSiteBaseUrl();
-  const products = await fetchProducts();
-  const categories = await fetchCategorySlugs();
+  
+  let products: any[] = [];
+  let categories: string[] = [];
+
+  try {
+    const [p, c] = await Promise.all([
+      fetchProducts(),
+      fetchCategorySlugs()
+    ]);
+    products = p;
+    categories = c;
+  } catch (error) {
+    console.error("Sitemap: Dynamic fetch failed, generating static-only sitemap.", error);
+  }
 
   const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
     url: `${baseUrl}/product/${product.id}`,
