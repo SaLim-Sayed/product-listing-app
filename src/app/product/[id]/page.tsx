@@ -15,10 +15,15 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const products = await fetchProducts();
-  return products.map((p) => ({
-    id: p.id.toString(),
-  }));
+  try {
+    const products = await fetchProducts();
+    return products.map((p) => ({
+      id: p.id.toString(),
+    }));
+  } catch (error) {
+    console.error("SSG: Failed to pre-render products list:", error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
