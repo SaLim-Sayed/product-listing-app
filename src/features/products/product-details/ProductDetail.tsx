@@ -1,24 +1,31 @@
 "use client";
 
-import { Alert, Button, Card, Spinner, buttonVariants } from "@heroui/react";
+import { Alert, Button, Card } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { AddToCartModal } from "@/components/ui/add-to-cart-modal";
+import { AddToCartModal } from "@/components/ui/AddToCartModal/AddToCartModal";
 import { RelatedProducts } from "@/features/products/components/RelatedProducts";
 import { isApiError } from "@/lib/api/errors";
 import { safeImageSrc } from "@/lib/image-url";
-import { useProduct } from "@/features/products/hooks";
 import { SHOP_PATH } from "@/lib/nav/shop-path";
-
 import { ProductDetailSkeleton } from "./ProductDetailSkeleton";
+import { useProductDetailLogic } from "./useProductDetailLogic";
 
 const HERO = 400;
 
 export function ProductDetail({ id }: { id: string }) {
-  const { data, isPending, isError, error, refetch } = useProduct(id);
-  const [imageFailed, setImageFailed] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const {
+    data,
+    isPending,
+    isError,
+    error,
+    refetch,
+    imageFailed,
+    showAddModal,
+    handleImageError,
+    openAddModal,
+    closeAddModal,
+  } = useProductDetailLogic(id);
 
   if (isPending) {
     return <ProductDetailSkeleton />;
@@ -35,14 +42,14 @@ export function ProductDetail({ id }: { id: string }) {
           <Alert.Title>
             {is404 ? "Product not found" : "Could not load product"}
           </Alert.Title>
-          <Alert.Description>{error.message}</Alert.Description>
+          <Alert.Description>{error?.message}</Alert.Description>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button variant="danger" onPress={() => refetch()}>
               Retry
             </Button>
             <Link
               href="/"
-              className={buttonVariants({ variant: "secondary", size: "md" })}
+              className="inline-flex items-center justify-center rounded-xl bg-zinc-100 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
             >
               Back to home
             </Link>
@@ -52,14 +59,14 @@ export function ProductDetail({ id }: { id: string }) {
     );
   }
 
-  const p = data;
+  const p = data!;
   const src = safeImageSrc(p.image);
 
   return (
     <article className="space-y-8">
       <AddToCartModal
         product={showAddModal ? p : null}
-        onClose={() => setShowAddModal(false)}
+        onClose={closeAddModal}
       />
       <Link
         href={SHOP_PATH}
@@ -86,7 +93,7 @@ export function ProductDetail({ id }: { id: string }) {
                 priority
                 fetchPriority="high"
                 unoptimized
-                onError={() => setImageFailed(true)}
+                onError={handleImageError}
               />
             )}
           </Card>
@@ -113,7 +120,7 @@ export function ProductDetail({ id }: { id: string }) {
             variant="primary"
             size="lg"
             className="mt-2 w-full max-w-xs font-semibold sm:w-auto"
-            onPress={() => setShowAddModal(true)}
+            onPress={openAddModal}
           >
             Add to cart
           </Button>
@@ -128,10 +135,7 @@ export function ProductDetail({ id }: { id: string }) {
         </div>
       </div>
 
-      <RelatedProducts
-        categorySlug={p.category}
-        excludeProductId={p.id}
-      />
+      <RelatedProducts categorySlug={p.category} excludeProductId={p.id} />
     </article>
   );
 }

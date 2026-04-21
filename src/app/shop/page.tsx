@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Products from "@/features/products";
+import Products from "@/features/products/ProductListing/ProductListing";
 
 export const metadata: Metadata = {
   title: "Shop",

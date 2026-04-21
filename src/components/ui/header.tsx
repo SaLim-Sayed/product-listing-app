@@ -1,6 +1,6 @@
 "use client";
 
-import { CartDrawer } from "@/components/ui/cart-drawer";
+import { CartDrawer } from "@/components/ui/CartDrawer/CartDrawer";
 import { selectCartTotalQuantity, useCartStore } from "@/lib/cart/cart-store";
 import { Button, useOverlayState } from "@heroui/react";
 import Link from "next/link";

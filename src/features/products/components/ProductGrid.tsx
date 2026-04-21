@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { AddToCartModal } from "@/components/ui/add-to-cart-modal";
+import { AddToCartModal } from "@/components/ui/AddToCartModal/AddToCartModal";
 import type { Product } from "@/features/products/types";
 import { ProductCard } from "@/features/products/components/ProductCard";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";

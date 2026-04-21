@@ -3,40 +3,33 @@
 import {
   Button,
   Drawer,
-  toast,
   type UseOverlayStateReturn,
 } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { cartRollup, promoListAndSave } from "@/lib/cart/promo-pricing";
+import { promoListAndSave } from "@/lib/cart/promo-pricing";
 import {
-  selectCartTotalQuantity,
-  useCartStore,
   type CartLine,
 } from "@/lib/cart/cart-store";
 import { safeImageSrc } from "@/lib/image-url";
 import { BsTrash } from "react-icons/bs";
+import { useCartDrawerLogic } from "./useCartDrawerLogic";
 
 type Props = {
   state: UseOverlayStateReturn;
 };
 
 export function CartDrawer({ state }: Props) {
-  const router = useRouter();
-  const lines = useCartStore((s) => s.lines);
-  const setLineQuantity = useCartStore((s) => s.setLineQuantity);
-  const removeLine = useCartStore((s) => s.removeLine);
-
-  const count = useCartStore(selectCartTotalQuantity);
-  const { subtotalList, discount, totalSale } = cartRollup(lines);
-
-  const heading =
-    count === 0
-      ? "Your Cart"
-      : count === 1
-        ? "Your Cart (1 item)"
-        : `Your Cart (${count} items)`;
+  const {
+    lines,
+    heading,
+    subtotalList,
+    discount,
+    totalSale,
+    setLineQuantity,
+    handleRemove,
+    handleCheckout,
+  } = useCartDrawerLogic(state);
 
   return (
     <Drawer state={state}>
@@ -70,12 +63,7 @@ export function CartDrawer({ state }: Props) {
                     key={line.productId}
                     line={line}
                     onQtyChange={(q) => setLineQuantity(line.productId, q)}
-                    onRemove={() => {
-                      removeLine(line.productId);
-                      toast.warning("Removed from cart", {
-                        description: `${line.title} has been removed.`,
-                      });
-                    }}
+                    onRemove={() => handleRemove(line.productId, line.title)}
                   />
                 ))
               )}
@@ -103,10 +91,7 @@ export function CartDrawer({ state }: Props) {
               <Button
                 className="mt-4 w-full bg-violet-600 font-semibold text-white hover:bg-violet-700"
                 isDisabled={lines.length === 0}
-                onPress={() => {
-                  state.close();
-                  router.push("/cart");
-                }}
+                onPress={handleCheckout}
               >
                 Proceed to Checkout
               </Button>
@@ -118,7 +103,7 @@ export function CartDrawer({ state }: Props) {
   );
 }
 
-export function CartLineRow({
+function CartLineRow({
   line,
   onQtyChange,
   onRemove,
@@ -201,4 +186,3 @@ export function CartLineRow({
     </div>
   );
 }
-

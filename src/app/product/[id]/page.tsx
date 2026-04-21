@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/json-ld";
 import { StoreShell } from "@/components/layouts/store-shell";
-import { ProductDetail } from "@/features/products/product-details/product-detail";
+import { ProductDetail } from "@/features/products/product-details/ProductDetail";
 import {
   buildProductJsonLd,
   getSiteBaseUrl,

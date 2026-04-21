@@ -4,4 +4,3 @@ export {
   useProduct,
   useProducts,
 } from "./useProducts";
-export { useFilters } from "./useFilters";

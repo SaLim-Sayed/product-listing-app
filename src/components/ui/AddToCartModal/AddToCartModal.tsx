@@ -1,9 +1,8 @@
 "use client";
 
-import { Button, Modal, toast, useOverlayState } from "@heroui/react";
-import { useCartStore } from "@/lib/cart/cart-store";
-import { promoListAndSave } from "@/lib/cart/promo-pricing";
+import { Button, Modal } from "@heroui/react";
 import type { Product } from "@/features/products/types";
+import { useAddToCartModalLogic } from "./useAddToCartModalLogic";
 
 const QTY = 1;
 
@@ -13,20 +12,13 @@ type Props = {
 };
 
 export function AddToCartModal({ product, onClose }: Props) {
-  const addItem = useCartStore((s) => s.addItem);
-  const state = useOverlayState({
-    isOpen: product != null,
-    onOpenChange: (open) => {
-      if (!open) onClose();
-    },
-  });
+  const { state, promoData, lineTotal, handleConfirm } = useAddToCartModalLogic(product, onClose);
 
   if (product == null) {
     return null;
   }
 
-  const { youSave } = promoListAndSave(product.price);
-  const lineTotal = product.price * QTY;
+  const { youSave } = promoData;
 
   return (
     <Modal state={state}>
@@ -58,13 +50,7 @@ export function AddToCartModal({ product, onClose }: Props) {
               </Button>
               <Button
                 className="min-w-24 bg-violet-600 font-semibold text-white hover:bg-violet-700"
-                onPress={() => {
-                  addItem(product);
-                  toast.success("Added to cart", {
-                    description: `${product.title} has been added to your cart.`,
-                  });
-                  state.close();
-                }}
+                onPress={handleConfirm}
               >
                 Confirm
               </Button>

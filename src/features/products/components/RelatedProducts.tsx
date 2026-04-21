@@ -3,7 +3,7 @@
 import { Spinner } from "@heroui/react";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
-import { AddToCartModal } from "@/components/ui/add-to-cart-modal";
+import { AddToCartModal } from "@/components/ui/AddToCartModal/AddToCartModal";
 import { ProductCard } from "@/features/products/components/ProductCard";
 import { useCategoryProducts } from "@/features/products/hooks";
 import { formatCategoryLabel } from "@/features/products/utils";
