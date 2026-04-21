@@ -34,7 +34,26 @@ export const metadata: Metadata = {
     template: "%s | Marketly",
   },
   description:
-    "Product listing from https://fakestoreapi.com/products — responsive grid, category filter, price range, and dynamic product pages.",
+    "Premium product listing from Fake Store API — responsive grid, category filter, price range, and dynamic product pages.",
+  keywords: ["e-commerce", "shopping", "nextjs", "heroui", "demo"],
+  authors: [{ name: "Marketly Team" }],
+  openGraph: {
+    title: "Marketly — Fake Store demo",
+    description: "Premium product listing demo built with Next.js and HeroUI.",
+    url: "https://marketly.demo",
+    siteName: "Marketly",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Marketly — Fake Store demo",
+    description: "Premium product listing demo built with Next.js and HeroUI.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

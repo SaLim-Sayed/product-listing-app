@@ -2,11 +2,23 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Products from "@/features/products/ProductListing/ProductListing";
 
-export const metadata: Metadata = {
-  title: "Shop",
-  description:
-    "Browse Marketly — filter by category and price (Fake Store API demo).",
-};
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}): Promise<Metadata> {
+  const { category } = await searchParams;
+  const categoryLabel = category
+    ? category.charAt(0).toUpperCase() + category.slice(1)
+    : "";
+
+  return {
+    title: categoryLabel ? `${categoryLabel}` : "Shop",
+    description: categoryLabel
+      ? `Browse our ${categoryLabel} collection at Marketly.`
+      : "Browse the full Marketly catalog — filter by category and price.",
+  };
+}
 
 export default function ShopPage() {
   return (

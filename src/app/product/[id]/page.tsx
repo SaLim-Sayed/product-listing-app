@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/json-ld";
 import { StoreShell } from "@/components/layouts/store-shell";
 import { ProductDetail } from "@/features/products/product-details/ProductDetail";
+import { buildProductJsonLd, getSiteBaseUrl } from "@/config/seo";
 import {
-  buildProductJsonLd,
-  getSiteBaseUrl,
-} from "@/config/seo";
-import { fetchProductById } from "@/features/products/services/products.service";
+  fetchProductById,
+  fetchProducts,
+} from "@/features/products/services/products.service";
 import { safeImageSrc } from "@/lib/image-url";
 import { productDetailPath } from "@/lib/nav/product-path";
 
@@ -14,7 +14,13 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-/** Dynamic `<title>` and meta description per product (equivalent intent to `next/head`). */
+export async function generateStaticParams() {
+  const products = await fetchProducts();
+  return products.map((p) => ({
+    id: p.id.toString(),
+  }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
