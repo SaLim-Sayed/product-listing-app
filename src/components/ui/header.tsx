@@ -1,6 +1,11 @@
 "use client";
 
-import { CartDrawer } from "@/components/ui/CartDrawer/CartDrawer";
+import dynamic from "next/dynamic";
+const CartDrawer = dynamic(
+  () =>
+    import("@/components/ui/CartDrawer/CartDrawer").then((mod) => mod.CartDrawer),
+  { ssr: false },
+);
 import { selectCartTotalQuantity, useCartStore } from "@/lib/cart/cart-store";
 import { Button, useOverlayState } from "@heroui/react";
 import Link from "next/link";

@@ -1,7 +1,14 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { AddToCartModal } from "@/components/ui/AddToCartModal/AddToCartModal";
+import dynamic from "next/dynamic";
+const AddToCartModal = dynamic(
+  () =>
+    import("@/components/ui/AddToCartModal/AddToCartModal").then(
+      (mod) => mod.AddToCartModal,
+    ),
+  { ssr: false },
+);
 import type { Product } from "@/features/products/types";
 import { ProductCard } from "@/features/products/components/ProductCard";
 import { ProductGridSkeleton } from "./ProductGridSkeleton";

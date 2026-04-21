@@ -3,7 +3,14 @@
 import { Alert, Button, Card } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { AddToCartModal } from "@/components/ui/AddToCartModal/AddToCartModal";
+import dynamic from "next/dynamic";
+const AddToCartModal = dynamic(
+  () =>
+    import("@/components/ui/AddToCartModal/AddToCartModal").then(
+      (mod) => mod.AddToCartModal,
+    ),
+  { ssr: false },
+);
 import { RelatedProducts } from "@/features/products/components/RelatedProducts";
 import { isApiError } from "@/lib/api/errors";
 import { safeImageSrc } from "@/lib/image-url";
