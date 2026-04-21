@@ -3,6 +3,8 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { MarketlyProductShell } from "@/components/marketly/marketly-product-shell";
 import { ProductDetail } from "@/components/product-detail";
 import { fetchProductById } from "@/lib/api/products";
+import { safeImageSrc } from "@/lib/image-url";
+import { productDetailPath } from "@/lib/nav/product-path";
 import { getSiteBaseUrl } from "@/lib/seo/get-site-base-url";
 import { buildProductJsonLd } from "@/lib/seo/product-jsonld";
 
@@ -10,18 +12,34 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-/** App Router SEO: use `generateMetadata` / `metadata` exports (Pages Router used `next/head`). */
+/** Dynamic `<title>` and meta description per product (equivalent intent to `next/head`). */
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   try {
     const product = await fetchProductById(id);
     const description = product.description.slice(0, 160);
+    const imageUrl = safeImageSrc(product.image);
+    const base = await getSiteBaseUrl();
+    const canonical =
+      base.length > 0
+        ? `${base.replace(/\/+$/, "")}${productDetailPath(product.id)}`
+        : undefined;
+
     return {
       title: product.title,
       description,
+      alternates: canonical ? { canonical } : undefined,
       openGraph: {
         title: product.title,
         description,
+        type: "website",
+        images: [{ url: imageUrl, alt: product.title }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: product.title,
+        description,
+        images: [imageUrl],
       },
     };
   } catch {

@@ -64,10 +64,10 @@ export function ProductDetail({ id }: { id: string }) {
         onClose={() => setShowAddModal(false)}
       />
       <Link
-        href="/"
+        href="/products"
         className="text-marketly-price inline-flex text-sm font-semibold underline-offset-4 hover:underline"
       >
-        ← Back to home
+        ← Back to catalog
       </Link>
 
       <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-start">

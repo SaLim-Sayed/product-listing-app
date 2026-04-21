@@ -3,7 +3,8 @@ import { MarketlyShopLayout } from "@/components/marketly/marketly-shop-layout";
 
 export const metadata: Metadata = {
   title: "Products",
-  description: "Browse the full Fake Store catalog.",
+  description:
+    "Browse products from fakestoreapi.com — filter by category (from /products/categories) and price on the client.",
 };
 
 export default function ProductsPage() {

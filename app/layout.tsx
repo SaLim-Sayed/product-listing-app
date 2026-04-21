@@ -13,14 +13,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-/** Default SEO; route-level `metadata` / `generateMetadata` override per page (App Router). Pages Router used `next/head`. */
+/**
+ * Default SEO (App Router `metadata`). Assignment templates often mention `next/head`;
+ * in the App Router, use this export plus route-level `generateMetadata` instead.
+ */
+function metadataBaseFromEnv(): URL | undefined {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return undefined;
+  const normalized = raw.endsWith("/") ? raw.slice(0, -1) : raw;
+  try {
+    return new URL(normalized);
+  } catch {
+    return undefined;
+  }
+}
+
+const resolvedMetadataBase = metadataBaseFromEnv();
+
 export const metadata: Metadata = {
+  ...(resolvedMetadataBase ? { metadataBase: resolvedMetadataBase } : {}),
   title: {
     default: "Marketly — Fake Store demo",
     template: "%s | Marketly",
   },
   description:
-    "Products from fakestoreapi.com — listing, filters, and product detail.",
+    "Product listing from https://fakestoreapi.com/products — responsive grid, category filter, price range, and dynamic product pages.",
 };
 
 export default function RootLayout({
