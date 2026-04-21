@@ -11,6 +11,7 @@ const AddToCartModal = dynamic(
     ),
   { ssr: false },
 );
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { RelatedProducts } from "@/features/products/components/RelatedProducts";
 import { isApiError } from "@/lib/api/errors";
 import { safeImageSrc } from "@/lib/image-url";
@@ -75,12 +76,14 @@ export function ProductDetail({ id }: { id: string }) {
         product={showAddModal ? p : null}
         onClose={closeAddModal}
       />
-      <Link
-        href={SHOP_PATH}
-        className="text-marketly-price inline-flex text-sm font-semibold underline-offset-4 hover:underline"
-      >
-        ← Back to catalog
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Shop", href: SHOP_PATH },
+          { label: p.category, href: `${SHOP_PATH}?category=${p.category}` },
+          { label: p.title },
+        ]}
+      />
 
       <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-start">
         <div className="flex justify-center md:justify-start">
