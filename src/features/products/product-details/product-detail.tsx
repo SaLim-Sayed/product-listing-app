@@ -86,8 +86,9 @@ export function ProductDetail({ id }: { id: string }) {
                 height={HERO}
                 sizes="(max-width: 768px) 100vw, 400px"
                 className="max-h-full max-w-full object-contain"
-                unoptimized
                 priority
+                fetchPriority="high"
+                unoptimized
                 onError={() => setImageFailed(true)}
               />
             )}

@@ -1,6 +1,6 @@
 "use client";
 
- import { Button, Modal, useOverlayState } from "@heroui/react";
+import { Button, Modal, useOverlayState } from "@heroui/react";
 import { useCartStore } from "@/lib/cart/cart-store";
 import { promoListAndSave } from "@/lib/cart/promo-pricing";
 import type { Product } from "@/features/products/types";
