@@ -14,7 +14,7 @@ export default function NotFound() {
         Page not found
       </h1>
       <p className="mt-4 max-w-md text-lg text-zinc-500">
-        Sorry, we couldn't find the page you're looking for. It might have been
+        Sorry, we couldn&apos;t find the page you&apos;re looking for. It might have been
         moved or deleted.
       </p>
       <div className="mt-10 flex flex-wrap justify-center gap-4">

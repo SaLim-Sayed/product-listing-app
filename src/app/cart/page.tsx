@@ -2,7 +2,7 @@
 
 import { Button, Card } from "@heroui/react";
 import Link from "next/link";
-import { CartLineRow } from "@/components/ui/cart-drawer";
+import { CartLineRow } from "@/components/ui/CartDrawer/CartDrawer";
 import { StoreShell } from "@/components/layouts/store-shell";
 import { cartRollup } from "@/lib/cart/promo-pricing";
 import { useCartStore } from "@/lib/cart/cart-store";

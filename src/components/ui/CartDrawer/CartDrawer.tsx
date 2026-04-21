@@ -103,7 +103,7 @@ export function CartDrawer({ state }: Props) {
   );
 }
 
-function CartLineRow({
+export function CartLineRow({
   line,
   onQtyChange,
   onRemove,

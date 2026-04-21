@@ -21,7 +21,6 @@ export default function GlobalError({
       <div className="w-full max-w-lg">
         <Alert
           status="danger"
-          variant="flat"
           className="rounded-2xl border-2 border-rose-100 shadow-xl"
         >
           <Alert.Indicator />

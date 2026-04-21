@@ -30,7 +30,7 @@ export default function ProductDetailError({
                 Product details failed to load
               </Alert.Title>
               <Alert.Description className="mt-1 text-rose-700/80">
-                We couldn't retrieve the details for this item. It might be
+                We couldn&apos;t retrieve the details for this item. It might be
                 temporarily unavailable.
               </Alert.Description>
               <div className="mt-6 flex flex-wrap gap-3">

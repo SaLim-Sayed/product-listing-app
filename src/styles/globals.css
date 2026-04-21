@@ -21,6 +21,12 @@
   --accent-foreground: oklch(0.99 0 0);
 }
 
+@layer components {
+  .app-shell {
+    @apply bg-marketly-page text-foreground flex min-h-full flex-col;
+  }
+}
+
 /* Landing hero carousel — navy slides, external prev/next buttons (see hero-carousel.tsx) */
 .hero-swiper {
   --swiper-pagination-color: #ffffff;

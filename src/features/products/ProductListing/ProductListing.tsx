@@ -14,7 +14,7 @@ export default function Products() {
   const { isPending, isError, error, refetch } = productsQuery;
 
   return (
-    <div className="bg-marketly-page text-foreground flex min-h-full flex-col">
+    <div className="app-shell">
       <Drawer state={filterDrawer}>
         <Drawer.Backdrop isDismissable>
           <Drawer.Content placement="bottom">
